@@ -11,10 +11,12 @@ let temperatures = [
     10, -3.14, 2, NaN, undefined, 6.28, -0, 10, 2, 9
 ];
 
+// let temperatures = require("./temperatures.js");
+
 const numbTemp = filterNumbers(temperatures);
 
 let sumNumb = numbTemp.reduce((acc, currentValue) => add(acc, currentValue), 0);
-// console.log(sumNumb.toFixed(2))
+console.log(sumNumb.toFixed(2))
 
 const average = div(sumNumb, numbTemp.length);
 console.log('Average temperature is:', average.toFixed(2) + '°C')
