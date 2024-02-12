@@ -2,8 +2,7 @@ const fs = require('fs')
 
 // ROUTE LOGIC
 exports.route = function ( url, aliases, res ) {
-    // HW!: spread/ destructuring/ ??
-
+    
     const path = url.split('?')[0]
     const queryString = url.split('?')[1]
     let params
