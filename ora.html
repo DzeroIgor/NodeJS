@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .text {
+            display: block;
+            text-align: center; 
+            font-family: monospace; 
+            font-size: 35px;
+        }
+
+    </style>
+</head>
+<body>
+    <p id="currentTime" class="text"></p>
+    <p id="rest" class="text"></p>
+    <script>
+
+        let restDiv = document.getElementById("rest");
+        let currentDiv = document.getElementById("currentTime");
+
+        function addZero(number) {
+            return number.toString().padStart(2, '0');
+        }
+
+        function calcTime() {
+            let currentData = new Date();
+            let currentDay = currentData.getDay(); // 0 for sunday, 1 for monday, ..., 6 for saturday
+            let currentHour = currentData.getHours();
+            let currentMinutes = currentData.getMinutes();
+            let currentSeconds = currentData.getSeconds();
+
+            let startWorkHour = 9;
+            let startLunchHour = 13;
+            let endLunchHour = 14;
+            let endWorkHour = 18;
+
+            currentDiv.innerText = `${addZero(currentHour)}:${addZero(currentMinutes)}:${addZero(currentSeconds)}`;
+
+            if (currentDay >= 1 && currentDay <= 5) { // Monday until Friday
+                if (currentHour < startWorkHour) {
+                    let untilStart = addZero(startWorkHour - currentHour);
+                    let pastMinutes = addZero(60 - currentMinutes);
+
+                    restDiv.innerText = `Until work starts there are ${untilStart}:${pastMinutes} left.`;
+                } else if (currentHour >= startWorkHour && currentHour < startLunchHour) {
+                    let untilLunch = addZero(startLunchHour - currentHour);
+                    let pastMinutes = addZero(60 - currentMinutes);
+
+                    restDiv.innerText = `Until lunch break there are ${untilLunch} hours and ${pastMinutes} minutes.`;
+                } else if (currentHour >= startLunchHour && currentHour < endLunchHour) {
+                    restDiv.innerText = `We're currently on lunch break.`;
+                } else if (currentHour >= endLunchHour && currentHour < endWorkHour) {
+                    let untilEnd = addZero(endWorkHour - currentHour);
+                    let pastMinutes = addZero(60 - currentMinutes);
+
+                    restDiv.innerText = `Until work ends there are ${untilEnd} hours and ${pastMinutes} minutes.`;
+                } else {
+                    restDiv.innerText = `The work day has ended.`;
+                }
+            } else { // Saturday and Sunday
+                restDiv.innerText = `Enjoy your weekend!`;
+            }
+        }
+
+        setInterval(calcTime, 1000);
+
+
+
+    </script>
+</body>
+</html>
